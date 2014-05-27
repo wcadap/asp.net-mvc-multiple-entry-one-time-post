@@ -1,0 +1,83 @@
+﻿@model MultipleEntry.Models.Client
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Client Registration</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Client Registration</legend>
+        <table id="clientTable" class="table table-bordered">
+            <thead>
+                <tr>
+                    <td>Client Name</td>
+                    <td>Email</td>
+                    <td></td>
+                </tr>    
+            </thead>
+            
+            <tr id="tablerow0">
+                <td>
+                    <div class="editor-field">
+                        <input class="text-box single-line" name="ClientName[0]" type="text" value="" required="required" />
+                    </div>
+                </td>
+                <td>
+                    <div class="editor-field">
+                        <input type="email" class="text-box single-line" name="Email[0]" value="" required="required" />
+                    </div>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-primary" onclick="removeTr(0);">Delete</button>
+                </td>
+            </tr>
+            
+        </table>
+        <p>
+            <button id="addButton" type="submit" class="btn btn-primary" >New Client</button>
+        </p>
+        <hr />
+
+        <p>
+            <button type="submit" class="btn btn-primary" >Save Clients</button>
+        </p>
+    </fieldset>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        var counter = 1;
+        $(function () {
+            
+            $('#addButton').click(function () {
+                $('<tr id="tablerow' + counter + '"><td>' +
+                    '<input class="text-box single-line" name="ClientName[' + counter + ']" type="text" value="" required="required" />' +
+                    '</td>' +
+                    '<td>' +
+                    '<input type="email" class="text-box single-line" name="Email[' + counter + ']" value="" required="required" />' +
+                    '</td>' +
+                    '<td>' +
+                    '<button type="button" class="btn btn-primary" onclick="removeTr(' + counter + ');">Delete</button>' +
+                    '</td>' +
+                    '</tr>').appendTo('#clientTable');
+                counter++;
+                return false;
+            });
+        });
+
+        function removeTr(index) {
+            if (counter > 1) {
+                $('#tablerow' + index).remove();
+                counter--;
+            }
+            return false;
+        }
+    </script>
+}
